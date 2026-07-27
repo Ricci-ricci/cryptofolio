@@ -12,12 +12,95 @@ datasource db {
   provider = "mongodb"
   url      = env("DATABASE_URL")
 }
+enum Network {
+  ETHEREUM
+  BASE
+  ARBITRUM
+  OPTIMISM
+  POLYGON
+  BNB
+  AVALANCHE
+  SOLANA
+}
+
+enum Currency {
+  USD
+  EUR
+  GBP
+}
+
+enum Theme {
+  LIGHT
+  DARK
+  SYSTEM
+}
+
+enum AlertCondition {
+  ABOVE
+  BELOW
+}
+
 model User {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-
   email     String   @unique
   password  String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  wallets   Wallet[]
+  watchlist Watchlist[]
+  alerts    Alert[]
+  settings  Settings?
+}
+
+model Wallet {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+
+  address   String
+  name      String?
+  network   Network
+
+  createdAt DateTime @default(now())
+
+  userId    String   @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([address, network])
+}
+
+model Watchlist {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+
+  symbol    String
+  createdAt DateTime @default(now())
+
+  userId    String   @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, symbol])
+}
+
+model Alert {
+  id          String         @id @default(auto()) @map("_id") @db.ObjectId
+
+  symbol      String
+  targetPrice Float
+  condition   AlertCondition
+  enabled     Boolean        @default(true)
+
+  createdAt   DateTime       @default(now())
+
+  userId       String         @db.ObjectId
+  user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Settings {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+
+  currency  Currency @default(USD)
+  theme     Theme    @default(DARK)
+
+  userId    String   @unique @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
