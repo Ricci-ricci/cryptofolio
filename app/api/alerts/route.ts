@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { CreateAlertDTO } from "@/types/alert";
 export async function GET() {
   try {
-    const userId = ""
+    const userId = "687f4c6d8e2b9d1234567890"
     const Alerts = await prisma.alert.findMany({
       where:
       {

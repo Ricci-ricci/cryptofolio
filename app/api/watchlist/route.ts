@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { CreateWatchlistDTO } from "@/types/watchlist";
 export async function GET() {
   try {
-    const userId = ""
+    const userId = "687f4c6d8e2b9d1234567890"
     const watchlist = await prisma.watchlist.findMany({ where: { userId } })
     if(watchlist) return NextResponse.json(watchlist)
   } catch (error) {
