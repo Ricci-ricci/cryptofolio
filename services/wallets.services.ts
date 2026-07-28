@@ -1,8 +1,8 @@
 import publicClient from "@/lib/viem";
 import { formatEther } from "viem";
-const Fetch_Alchemy = async (address: `0x${string}`) => {
+const Ethereum_balance = async (address: `0x${string}`): Promise <Number> => {
   const rawEthBalance = await publicClient.getBalance({ address })
   const ethBalance = formatEther(rawEthBalance)
-  return ethBalance
+  return Number(ethBalance)
 }
-export default Fetch_Alchemy
+export default Ethereum_balance
