@@ -1,10 +1,8 @@
-import Ethereum_balance from "./balances.services";
-import Fetch_CoinGecko from "./prices.service";
-const Solde = async (address: `0x${string}`): Promise <Number> => {
-  const eth_balances = await Ethereum_balance(address)
-  const coin_price = await Fetch_CoinGecko(["ethereum"])
-  const eth = coin_price[0]
-  const balance =  Number(eth.current_price) * Number(eth_balances)
-  return balance
+import {Ethereum_balance, Get_ERC20_token} from "./balances.services";
+import {Fetch_CoinGecko} from "./prices.service";
+const Solde = async (address: `0x${string}`) => {
+  const erc20 = await Get_ERC20_token(address)
+  console.log(erc20)
+  return erc20
 }
 export default Solde

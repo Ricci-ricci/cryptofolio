@@ -7,7 +7,7 @@ export async function GET(request: NextRequest, { params } : PageProps){
   try {
     const { walletAddress } = await params;
     const solde = await Solde(walletAddress);
-    return NextResponse.json({walletAddress , soldeInUsd:solde}, { status: 200 });
+    return NextResponse.json({walletAddress ,solde}, { status: 200 });
   } catch (error) {
     return NextResponse.json({ message: "Internal server Error" }, {status:500})
   }
