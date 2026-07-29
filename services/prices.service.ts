@@ -2,16 +2,17 @@ const Fetch_CoinGecko = async (ids: string[]) => {
   const id = ids.join(",")
   const api_key = process.env.COIN_GECKO_API_KEY || ""
 
-  const response = await fetch(`https://api.coingecko.com/api/v3/coins/markets?vs_currencies=usd&ids=${id}`, {
+  const response = await fetch(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${id}`, {
     method: "GET",
     headers: {
       'x-cg-demo-api-key':api_key,
     }
       })
   if (!response.ok) {
-    throw new Error ("failed to fetch prices")
+    console.log("hello ricci")
   }
   const data = await response.json();
+  console.log(data)
   return data;
 }
 export  {Fetch_CoinGecko , fetch_price}

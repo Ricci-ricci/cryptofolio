@@ -2,17 +2,26 @@ import publicClient from "@/lib/viem";
 import { formatEther } from "viem";
 import { erc20Abi } from "viem";
 import { formatUnits } from "viem";
-import {Fetch_CoinGecko , fetch_price} from "./prices.service";
+import { Fetch_CoinGecko, fetch_price } from "./prices.service";
+interface TokenAsset {
+  address: `0x${string}`;
+  name: string;
+  symbol: string;
+  decimals: number;
+  balance: string;
+  price: number;
+  usdValue: number;
+}
 interface TokenBalance {
     contractAddress: `0x${string}`;
     tokenBalance: string;
 }
-const Ethereum_balance = async (address: `0x${string}`):Promise<Number> => {
+const Ethereum_balance = async (address: `0x${string}`):Promise<number> => {
   const rawEthBalance = await publicClient.getBalance({ address })
   const ethBalance = formatEther(rawEthBalance)
   return Number(ethBalance)
 }
-const Get_ERC20_token = async(address:`0x${string}`) =>
+const Get_ERC20_token = async(address:`0x${string}`):Promise<TokenAsset[]> =>
 {
   const apikey = process.env.ALCHEMY_KEY || ""
   const URL = `https://eth-mainnet.g.alchemy.com/v2/${apikey}`
@@ -67,8 +76,7 @@ const Get_ERC20_token = async(address:`0x${string}`) =>
         usdValue,
       };
     })
-  )).filter(Boolean);
-
+  )).filter((token): token is TokenAsset => token !== null);
   return portfolio;
   }
 export { Ethereum_balance , Get_ERC20_token}
