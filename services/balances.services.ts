@@ -41,7 +41,8 @@ const Get_ERC20_token = async(address:`0x${string}`) =>
   );
   const portfolio = await Promise.all(
     tokens_filtered.map(async (token) => {
-      const meta = await get_metadata(token.contractAddress);      const balance = formatUnits(
+      const meta = await get_metadata(token.contractAddress);
+      const balance = formatUnits(
         BigInt(token.tokenBalance),
         meta.decimals
       );
@@ -62,7 +63,7 @@ const Get_ERC20_token = async(address:`0x${string}`) =>
         price,
         usdValue,
       };
-    })
+    }).filter(Boolean)
   );
 
   return portfolio;
