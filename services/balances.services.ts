@@ -39,7 +39,7 @@ const Get_ERC20_token = async(address:`0x${string}`) =>
   const tokens_filtered = tokens.filter(
       token => token.tokenBalance !== "0x0"
   );
-  const portfolio = await Promise.all(
+  const portfolio = (await Promise.all(
     tokens_filtered.map(async (token) => {
       const meta = await get_metadata(token.contractAddress);
       const balance = formatUnits(
@@ -49,6 +49,9 @@ const Get_ERC20_token = async(address:`0x${string}`) =>
       const price = await fetch_price(token.contractAddress.toLowerCase())
       if (price === 0) {
         return null;
+      }
+      if (Number(balance) === 0) {
+        return null
       }
       const usdValue = Number(balance) * Number(price);
       if (Number.isNaN(usdValue)) {
@@ -63,8 +66,8 @@ const Get_ERC20_token = async(address:`0x${string}`) =>
         price,
         usdValue,
       };
-    }).filter(Boolean)
-  );
+    })
+  )).filter(Boolean);
 
   return portfolio;
   }
