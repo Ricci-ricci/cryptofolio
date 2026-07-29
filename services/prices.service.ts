@@ -28,13 +28,9 @@ const fetch_price = async ( contract_address:string): Promise<Number> => {
   if (!response.ok) {
     throw new Error ("failed to fetch prices")
   }
-  console.log(response.status)
   const data = await response.json();
   if (!data) {
     throw new Error ("Failed to fetch Prices")
   }
-  console.log(data)
-  const prices = data[contract_address]?.usd ?? 0
-  console.log(prices)
   return data[contract_address]?.usd ?? 0
 }

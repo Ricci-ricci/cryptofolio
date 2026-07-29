@@ -41,14 +41,10 @@ const Get_ERC20_token = async(address:`0x${string}`) =>
   );
   const portfolio = await Promise.all(
     tokens_filtered.map(async (token) => {
-      const meta = await get_metadata(token.contractAddress);
-      console.log("this is meta" , meta)
-      const balance = formatUnits(
+      const meta = await get_metadata(token.contractAddress);      const balance = formatUnits(
         BigInt(token.tokenBalance),
         meta.decimals
       );
-      console.log("this is contracaddress" , token.contractAddress.toLowerCase())
-
       const price = await fetch_price(token.contractAddress.toLowerCase())
       if (price === 0) {
         return null;
