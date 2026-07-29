@@ -12,7 +12,6 @@ const Fetch_CoinGecko = async (ids: string[]) => {
     console.log("hello ricci")
   }
   const data = await response.json();
-  console.log(data)
   return data;
 }
 export  {Fetch_CoinGecko , fetch_price}
