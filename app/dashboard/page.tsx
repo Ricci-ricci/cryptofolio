@@ -1,4 +1,5 @@
+import PageContainer from "@/components/containers/page-containers"
 const Dashboard = () => {
-  return <>Hello world</>
+  return <PageContainer>Hello world</PageContainer>
 }
 export default Dashboard
