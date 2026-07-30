@@ -28,14 +28,17 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <SidebarProvider>
-        <AppSidebar/>
-        <body className="min-h-full flex flex-col">
-          <SidebarTrigger />
-          {children}
-        </body>
-      </SidebarProvider>
 
+        <body className="min-h-full flex flex-col">
+          <SidebarProvider>
+            <AppSidebar/>
+            <main>
+              <SidebarTrigger />
+              {children}
+            </main>
+
+          </SidebarProvider>
+        </body>
     </html>
   );
 }
