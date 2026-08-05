@@ -1,6 +1,6 @@
 import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-import Fetch_CoinGecko from "@/services/prices.service";
+import {Fetch_CoinGecko} from "@/services/prices.service";
 export async function GET() {
   try {
     const data = await Fetch_CoinGecko([
