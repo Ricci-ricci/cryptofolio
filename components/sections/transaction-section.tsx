@@ -34,35 +34,28 @@ const TransactionSection = () => {
     }
   ];
   return <SectionContainer title="transaction"><ContentContainer><div className="w-full rounded-2xl border bg-white p-5 shadow-sm">
-
     {/* Header */}
     <div className="mb-5 flex justify-between">
       <h2 className="text-xl font-bold">
         Recent Transactions
       </h2>
-
       <span className="text-sm text-gray-500">
         Last activity
       </span>
     </div>
-
-
     {/* Transactions */}
     <div className="space-y-4">
-
       {transactions.map((tx) => (
         <div
           key={tx.id}
           className="flex items-center justify-between rounded-xl bg-gray-50 p-4"
         >
-
           {/* Asset */}
           <div>
             <div className="flex items-center gap-2">
               <h3 className="font-bold">
                 {tx.asset}
               </h3>
-
               <span
                 className={`rounded-full px-2 py-1 text-xs font-medium ${
                   tx.type === "Buy"
