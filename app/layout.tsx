@@ -1,8 +1,13 @@
 import type { Metadata } from "next";
 import { Roboto, Roboto_Mono } from "next/font/google";
 import "./globals.css";
-import { SidebarProvider , SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/sidebar/app.siderbar";
+import TopBar from "@/components/sections/topbar-section";
+
+// Applies the saved theme while the HTML is still parsing, so a dark-mode user
+// never sees a white flash before React hydrates.
+const themeScript = `try{var t=localStorage.getItem('theme');if(t==='dark'||(!t&&matchMedia('(prefers-color-scheme: dark)').matches)){document.documentElement.classList.add('dark')}}catch(e){}`;
 const roboto = Roboto({
   variable: "--font-roboto",
   subsets: ["latin"],
@@ -30,10 +35,11 @@ export default function RootLayout({
     >
 
         <body className="min-h-full flex flex-col">
+          <script dangerouslySetInnerHTML={{ __html: themeScript }} />
           <SidebarProvider>
             <AppSidebar/>
             <main className="flex w-full min-w-0 flex-1 flex-col">
-              <SidebarTrigger />
+              <TopBar />
               {children}
             </main>
 

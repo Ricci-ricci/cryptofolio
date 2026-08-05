@@ -33,13 +33,13 @@ const TransactionSection = () => {
       status: "Pending"
     }
   ];
-  return <SectionContainer title="transaction"><ContentContainer><div className="w-full  border bg-white p-5 shadow-sm">
+  return <SectionContainer title="transaction"><ContentContainer><div className="w-full  border bg-white dark:bg-card p-5 shadow-sm">
     {/* Header */}
     <div className="mb-5 flex justify-between">
       <h2 className="text-xl font-bold">
         Recent Transactions
       </h2>
-      <span className="text-sm text-gray-500">
+      <span className="text-sm text-gray-500 dark:text-muted-foreground">
         Last activity
       </span>
     </div>
@@ -48,7 +48,7 @@ const TransactionSection = () => {
       {transactions.map((tx) => (
         <div
           key={tx.id}
-          className="flex items-center justify-between rounded-xl bg-gray-50 p-4"
+          className="flex items-center justify-between rounded-xl bg-gray-50 p-4 dark:bg-white/5"
         >
           {/* Asset */}
           <div>
@@ -59,15 +59,15 @@ const TransactionSection = () => {
               <span
                 className={`rounded-full px-2 py-1 text-xs font-medium ${
                   tx.type === "Buy"
-                    ? "bg-green-100 text-green-600"
-                    : "bg-red-100 text-red-600"
+                    ? "bg-green-100 text-green-600 dark:bg-green-500/15 dark:text-green-400"
+                    : "bg-red-100 text-red-600 dark:bg-red-500/15 dark:text-red-400"
                 }`}
               >
                 {tx.type}
               </span>
             </div>
 
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-gray-500 dark:text-muted-foreground">
               {tx.amount} {tx.asset}
             </p>
           </div>
@@ -75,7 +75,7 @@ const TransactionSection = () => {
 
           {/* Price */}
           <div>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-gray-500 dark:text-muted-foreground">
               Price
             </p>
             <p className="font-medium">
@@ -86,7 +86,7 @@ const TransactionSection = () => {
 
           {/* Value */}
           <div>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-gray-500 dark:text-muted-foreground">
               Value
             </p>
             <p className="font-semibold">
@@ -97,11 +97,11 @@ const TransactionSection = () => {
 
           {/* Status */}
           <div className="text-right">
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-gray-500 dark:text-muted-foreground">
               Status
             </p>
 
-            <span className="text-sm font-medium text-green-600">
+            <span className="text-sm font-medium text-green-600 dark:text-green-400">
               {tx.status}
             </span>
           </div>
@@ -113,7 +113,7 @@ const TransactionSection = () => {
 
 
     {/* Button */}
-    <button className="mt-5 w-full rounded-xl border py-3 text-sm font-semibold hover:bg-gray-50">
+    <button className="mt-5 w-full rounded-xl border py-3 text-sm font-semibold hover:bg-gray-50 dark:hover:bg-white/5">
       See More
     </button>
 

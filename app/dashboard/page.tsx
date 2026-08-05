@@ -10,7 +10,6 @@ const Dashboard = () => {
                     <TokenSection />
                     <TransactionSection />
               </div>
-              <WalletSection />
         </PageContainer>
 }
 export default Dashboard
