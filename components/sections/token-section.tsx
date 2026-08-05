@@ -9,7 +9,7 @@ const TokenSection = () => {
     {assets.map((asset) => (
       <div
         key={asset.symbol}
-        className="w-full rounded-2xl border bg-white p-5 shadow-sm"
+        className="w-full border bg-white p-5 "
       >
         {/* Header */}
         <div className="flex items-center justify-between">

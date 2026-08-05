@@ -33,7 +33,7 @@ const TransactionSection = () => {
       status: "Pending"
     }
   ];
-  return <SectionContainer title="transaction"><ContentContainer><div className="w-full rounded-2xl border bg-white p-5 shadow-sm">
+  return <SectionContainer title="transaction"><ContentContainer><div className="w-full  border bg-white p-5 shadow-sm">
     {/* Header */}
     <div className="mb-5 flex justify-between">
       <h2 className="text-xl font-bold">

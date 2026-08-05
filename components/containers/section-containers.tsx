@@ -9,7 +9,7 @@ export default function SectionContainer({
     <section className="space-y-4 w-full min-w-0">
       <h2 className="text-xl font-semibold">{title}</h2>
 
-      <div className="rounded-xl border p-6 w-full">
+      <div className="border p-6 w-full">
         {children}
       </div>
     </section>

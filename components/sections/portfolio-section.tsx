@@ -1,7 +1,7 @@
 import SectionContainer from "../containers/section-containers"
 import ContentContainer from "../containers/content-containers"
 const PortfolioSection = () => {
-  return <SectionContainer title="portfolio"><ContentContainer><div className="w-72 rounded-2xl bg-white p-6 shadow-md border">
+  return <SectionContainer title="portfolio"><ContentContainer><div className="w-72 rounded-2xl bg-white p-6">
     {/* Title */}
     <p className="mb-3 text-sm text-gray-500">
       Total Portfolio Value
