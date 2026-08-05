@@ -3,6 +3,7 @@ import PortfolioSection from "@/components/sections/portfolio-section"
 import TokenSection from "@/components/sections/token-section"
 import TransactionSection from "@/components/sections/transaction-section"
 import WalletSection from "@/components/sections/wallet-section"
+import { data } from "@/dumbdata/dumbdata"
 const Dashboard = () => {
   return <PageContainer>
               <PortfolioSection />
