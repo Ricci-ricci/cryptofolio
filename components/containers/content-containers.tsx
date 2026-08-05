@@ -4,7 +4,7 @@ export default function ContentContainer({
   children: React.ReactNode;
 }) {
   return (
-    <div className=" w-full gap-4 ">
+    <div className=" w-full gap-2 ">
       {children}
     </div>
   );

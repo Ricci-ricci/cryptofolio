@@ -1,7 +1,18 @@
+import Image from "next/image"
 import SectionContainer from "../containers/section-containers"
 import ContentContainer from "../containers/content-containers"
 const PortfolioSection = () => {
-  return <SectionContainer title="portfolio"><ContentContainer><div className="w-72 rounded-2xl bg-white dark:bg-card p-6">
+  return <SectionContainer title="portfolio"><ContentContainer><div className="relative w-full overflow-hidden p-6 isolate">
+    {/* Background image + scrim so the figures stay readable on top of it */}
+    <Image
+      src="/cyrpto.jpg"
+      alt=""
+      fill
+      sizes="288px"
+      className="-z-10 object-cover"
+    />
+    <div className="absolute inset-0 -z-10 bg-white/75 backdrop-blur-[2px] dark:bg-black/65" />
+
     {/* Title */}
     <p className="mb-3 text-sm text-gray-500 dark:text-muted-foreground">
       Total Portfolio Value

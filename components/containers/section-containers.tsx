@@ -9,7 +9,7 @@ export default function SectionContainer({
     <section className="space-y-4 w-full min-w-0">
       <h2 className="text-xl font-semibold capitalize">{title}</h2>
 
-      <div className="border p-6 w-full">
+      <div className="p-2 w-full">
         {children}
       </div>
     </section>
