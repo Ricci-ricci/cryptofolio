@@ -1,7 +1,28 @@
+"use client"
 import Image from "next/image"
 import SectionContainer from "../containers/section-containers"
 import ContentContainer from "../containers/content-containers"
-const PortfolioSection = () => {
+import { useState , useEffect } from "react"
+
+const fetch_data = async (walletaddress: string) => {
+  const response = await fetch(`/api/portfolio/${walletaddress}`)
+  if (!response.ok) {
+    return "failed to fetch portfolio"
+  }
+  const data = response.json()
+  return data
+}
+const PortfolioSection = async () => {
+  const [data, setData] = useState([])
+  const [walletaddress , setWalletaddress] = useState("")
+  useEffect(() => {
+    if (!walletaddress) return
+    const loadData = async () => {
+      const response = await fetch_data(walletaddress)
+      setData(response)
+    }
+    loadData()
+  }, [walletaddress])
   return <SectionContainer title="portfolio"><ContentContainer><div className="relative w-full overflow-hidden p-6 isolate">
     {/* Background image + scrim so the figures stay readable on top of it */}
     <Image
