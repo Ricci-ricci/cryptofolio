@@ -6,13 +6,13 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
 import { SidebarTrigger } from "@/components/ui/sidebar"
+import { useTheme } from "next-themes"
 
 const TopBar = () => {
+  const {theme, setTheme} = useTheme()
   const toggleTheme = () => {
-    const isDark = document.documentElement.classList.toggle("dark")
-    localStorage.setItem("theme", isDark ? "dark" : "light")
+    setTheme(theme === "dark" ? "light" : "dark")
   }
-
   return (
     <header className="sticky top-0 z-20 flex h-16 w-full shrink-0 items-center gap-3 border-b bg-background/95 px-4 backdrop-blur">
       <SidebarTrigger />

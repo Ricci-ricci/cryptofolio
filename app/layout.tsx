@@ -4,15 +4,14 @@ import "./globals.css";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/sidebar/app.siderbar";
 import TopBar from "@/components/sections/topbar-section";
+import { ThemeProvider } from 'next-themes';
 
 // Applies the saved theme while the HTML is still parsing, so a dark-mode user
 // never sees a white flash before React hydrates.
-const themeScript = `try{var t=localStorage.getItem('theme');if(t==='dark'||(!t&&matchMedia('(prefers-color-scheme: dark)').matches)){document.documentElement.classList.add('dark')}}catch(e){}`;
 const roboto = Roboto({
   variable: "--font-roboto",
   subsets: ["latin"],
 });
-
 const robotoMono = Roboto_Mono({
   variable: "--font-roboto-mono",
   subsets: ["latin"],
@@ -34,16 +33,16 @@ export default function RootLayout({
       className={`${roboto.variable} ${robotoMono.variable} h-full antialiased`}
     >
 
-        <body className="min-h-full flex flex-col">
-          <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      <body className="min-h-full flex flex-col">
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <SidebarProvider>
             <AppSidebar/>
             <main className="flex w-full min-w-0 flex-1 flex-col">
               <TopBar />
               {children}
             </main>
-
           </SidebarProvider>
+        </ThemeProvider>
         </body>
     </html>
   );
