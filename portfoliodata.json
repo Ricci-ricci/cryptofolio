@@ -1,0 +1,49 @@
+{
+  "solde": {
+    "walletAddress": "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045",
+    "totalValue": 7.134261539686536,
+    "ethereum": {
+      "balance": 6.6340367716056186,
+      "price": 1893.64,
+      "value": 12562.477392183264
+    },
+    "token": [
+      {
+        "address": "0x004f747a91e05d0e2fbe8bf3cd39cdb2bcfab02c",
+        "name": "TWEET",
+        "symbol": "TWEET",
+        "decimals": 18,
+        "balance": "10",
+        "price": 0.00050541,
+        "usdValue": 0.0050541
+      },
+      {
+        "address": "0x00c5ca160a968f47e7272a0cfcda36428f386cb6",
+        "name": "USDEBT",
+        "symbol": "USDEBT",
+        "decimals": 18,
+        "balance": "777",
+        "price": 8.59821e-10,
+        "usdValue": 6.68080917e-7
+      },
+      {
+        "address": "0x016ee7373248a80bde1fd6baa001311d233b3cfa",
+        "name": " 3X Short Bitcoin Token",
+        "symbol": "BEAR",
+        "decimals": 18,
+        "balance": "83000",
+        "price": 0.00000229,
+        "usdValue": 0.19007000000000002
+      },
+      {
+        "address": "0x01995a697752266d8e748738aaa3f06464b8350b",
+        "name": "CANA Holdings California Carbon Credits",
+        "symbol": "CANA",
+        "decimals": 18,
+        "balance": "0.01",
+        "price": 30.51,
+        "usdValue": 0.30510000000000004
+      }
+    ]
+  }
+}

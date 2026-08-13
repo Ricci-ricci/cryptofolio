@@ -1,30 +1,21 @@
-"use client"
 import Image from "next/image"
 import SectionContainer from "../containers/section-containers"
 import ContentContainer from "../containers/content-containers"
-import { useState , useEffect } from "react"
+import type { PortfolioData } from "@/types/portfolio"
 
-const fetch_data = async (walletaddress: string) => {
-  const response = await fetch(`/api/portfolio/${walletaddress}`)
-  if (!response.ok) {
-    return "failed to fetch portfolio"
-  }
-  const data = response.json()
-  return data
-}
-const PortfolioSection = async () => {
-  const [data, setData] = useState([])
-  const [walletaddress , setWalletaddress] = useState("")
-  useEffect(() => {
-    if (!walletaddress) return
-    const loadData = async () => {
-      const response = await fetch_data(walletaddress)
-      setData(response)
-    }
-    loadData()
-  }, [walletaddress])
+const format_usd = (value: number) =>
+  value.toLocaleString("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: 2,
+  })
+
+const PortfolioSection = ({ data }: { data: PortfolioData | null }) => {
+  const solde = data?.solde
+  // Tant que le fetch n'a pas répondu, on garde la mise en page et on affiche "—".
+  const token_value = solde?.token.reduce((sum, token) => sum + token.usdValue, 0)
+
   return <SectionContainer title="portfolio"><ContentContainer><div className="relative w-full overflow-hidden p-6 isolate">
-    {/* Background image + scrim so the figures stay readable on top of it */}
     <Image
       src="/cyrpto.jpg"
       alt=""
@@ -38,34 +29,36 @@ const PortfolioSection = async () => {
     <p className="mb-3 text-sm text-gray-500 dark:text-muted-foreground">
       Total Portfolio Value
     </p>
-    {/* Amount + percentage */}
+    {/* Amount */}
     <div className="flex items-start gap-3">
       <h2 className="text-3xl font-bold text-gray-900 dark:text-foreground">
-        $12,450.00
+        {solde ? format_usd(solde.totalValue) : "—"}
       </h2>
-
-      <span className="mt-1 rounded-full bg-green-100 px-2 py-1 text-xs font-semibold text-green-600 dark:bg-green-500/15 dark:text-green-400">
-        +12.5%
-      </span>
     </div>
-    {/* Expenses Left / Income Right */}
+    {/* Ethereum Left / Tokens Right */}
     <div className="mt-5 flex justify-between">
-      {/* Expenses */}
+      {/* Ethereum */}
       <div>
         <p className="text-sm text-gray-500 dark:text-muted-foreground">
-          Expenses
+          Ethereum
         </p>
-        <p className="text-lg font-semibold text-red-500 dark:text-red-400">
-          -$2,750
+        <p className="text-lg font-semibold text-gray-900 dark:text-foreground">
+          {solde ? format_usd(solde.ethereum.value) : "—"}
+        </p>
+        <p className="text-xs text-gray-500 dark:text-muted-foreground">
+          {solde ? `${solde.ethereum.balance.toFixed(4)} ETH` : "—"}
         </p>
       </div>
-      {/* Income */}
+      {/* Tokens */}
       <div className="text-right">
         <p className="text-sm text-gray-500 dark:text-muted-foreground">
-          Income
+          Tokens
         </p>
-        <p className="text-lg font-semibold text-green-600 dark:text-green-400">
-          +$8,200
+        <p className="text-lg font-semibold text-gray-900 dark:text-foreground">
+          {token_value !== undefined ? format_usd(token_value) : "—"}
+        </p>
+        <p className="text-xs text-gray-500 dark:text-muted-foreground">
+          {solde ? `${solde.token.length} tokens` : "—"}
         </p>
       </div>
     </div>

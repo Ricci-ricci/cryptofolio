@@ -10,7 +10,8 @@ const Solde = async (address: `0x${string}`) => {
     (sum, token) => sum + token.usdValue,
     0
   );
-  const totalValue = balance_eth + Number(tokenTotal);
+  // `balances` (la valeur en USD), pas `balance_eth` (le nombre d'ETH).
+  const totalValue = balances + Number(tokenTotal);
   return {
     walletAddress: address,
     totalValue:totalValue,
