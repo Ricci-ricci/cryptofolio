@@ -1,14 +1,8 @@
 import Image from "next/image"
 import SectionContainer from "../containers/section-containers"
 import ContentContainer from "../containers/content-containers"
+import { format_usd } from "@/lib/format"
 import type { PortfolioData } from "@/types/portfolio"
-
-const format_usd = (value: number) =>
-  value.toLocaleString("en-US", {
-    style: "currency",
-    currency: "USD",
-    maximumFractionDigits: 2,
-  })
 
 const PortfolioSection = ({ data }: { data: PortfolioData | null }) => {
   const solde = data?.solde

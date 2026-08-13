@@ -66,7 +66,7 @@ const Dashboard = () => {
               )}
               <PortfolioSection data={data} />
               <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-                    <TokenSection />
+                    <TokenSection data={data} />
                     <TransactionSection />
               </div>
         </PageContainer>
