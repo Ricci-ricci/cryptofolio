@@ -6,7 +6,6 @@ interface PageProps {
 export async function GET(request: NextRequest, { params } : PageProps){
   try {
     const { walletAddress } = await params;
-    console.log(walletAddress)
     const solde = await Solde(walletAddress);
     return NextResponse.json({solde}, { status: 200 });
   } catch (error) {

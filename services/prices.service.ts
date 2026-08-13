@@ -9,7 +9,7 @@ const Fetch_CoinGecko = async (ids: string[]) => {
     }
       })
   if (!response.ok) {
-    console.log("hello ricci")
+    throw new Error(`failed to fetch markets (${response.status} ${response.statusText})`)
   }
   const data = await response.json();
   return data;

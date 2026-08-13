@@ -40,11 +40,7 @@ const map_with_limit = async <T, R>(
 
 const Ethereum_balance = async (address: `0x${string}`):Promise<number> => {
   const rawEthBalance = await publicClient.getBalance({ address })
-  if (!rawEthBalance) {
-    console.log("failed to get raw eth balance")
-  }
   const ethBalance = formatEther(rawEthBalance)
-  console.log(ethBalance)
   return Number(ethBalance)
 }
 const Get_ERC20_token = async(address:`0x${string}`):Promise<TokenAsset[]> =>
@@ -84,9 +80,8 @@ const Get_ERC20_token = async(address:`0x${string}`):Promise<TokenAsset[]> =>
   const priced = tokens_filtered.filter(
     token => (prices[token.contractAddress.toLowerCase()] ?? 0) > 0
   );
-  console.log(`${tokens_filtered.length} tokens with a balance, ${priced.length} with a price`)
 
-  const portfolio = (await map_with_limit(priced, METADATA_CONCURRENCY, async (token) => {
+  const portfolio =(await map_with_limit(priced, METADATA_CONCURRENCY, async (token) => {
     const meta = await get_metadata(token.contractAddress);
     const balance = formatUnits(
       BigInt(token.tokenBalance),
