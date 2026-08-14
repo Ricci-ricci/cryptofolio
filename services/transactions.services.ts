@@ -21,10 +21,8 @@ const fetch_transaction = async (walletaddress: `0x${string}`) => {
     }
     const response = await fetch(URL, options)
     const data = await response.json()
-    console.log("Alchemy status:", response.status)
-    console.log("Alchemy response:", data.result)
     if (!response.ok) {
-        throw new Error(`Alchemy error ${response.status}: ${data}`)
+        throw new Error(`Alchemy error ${response.status}: ${JSON.stringify(data)}`)
     }
     return data
   } catch (Error) {
