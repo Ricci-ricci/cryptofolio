@@ -17,7 +17,6 @@ export async function DELETE(request: NextRequest, { params }: PageProps) {
   catch (error) {
     return NextResponse.json(error , {status: 501})
   }
-
 }
 export async function UPDATE(request: NextRequest, { params }: PageProps) {
   try {
