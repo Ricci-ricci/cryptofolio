@@ -6,6 +6,7 @@ import TransactionSection from "@/components/sections/transaction-section"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import type { PortfolioData } from "@/types/portfolio"
+import type { TransactionData } from "@/types/transaction"
 import { useState, useEffect } from "react"
 
 const fetch_data = async (walletaddress: string) => {
@@ -16,8 +17,17 @@ const fetch_data = async (walletaddress: string) => {
   const data:PortfolioData = await response.json()
   return data
 }
+const fetch_transactions = async (walletaddress: string) => {
+  const response = await fetch(`/api/transactions/${walletaddress}`)
+  if (!response.ok) {
+    throw new Error("failed to fetch transactions from the walletaddress")
+  }
+  const data:TransactionData = await response.json()
+  return data
+}
 const Dashboard = () => {
   const [data, setData] = useState<PortfolioData | null>(null)
+  const [transactions, setTransactions] = useState<TransactionData | null>(null)
   const [walletaddress , setWalletaddress] = useState("")
   const [input, setInput] = useState("")
   const [loading, setLoading] = useState(false)
@@ -31,8 +41,15 @@ const Dashboard = () => {
       setLoading(true)
       setError(null)
       try {
-        const response = await fetch_data(walletaddress)
-        if (!cancelled) setData(response)
+        // Les deux endpoints sont indépendants : on les lance en parallèle.
+        const [portfolio, transfers] = await Promise.all([
+          fetch_data(walletaddress),
+          fetch_transactions(walletaddress),
+        ])
+        if (!cancelled) {
+          setData(portfolio)
+          setTransactions(transfers)
+        }
       } catch (error) {
         if (!cancelled) setError(error instanceof Error ? error.message : "unknown error")
       } finally {
@@ -67,7 +84,12 @@ const Dashboard = () => {
               <PortfolioSection data={data} />
               <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
                     <TokenSection data={data} />
-                    <TransactionSection />
+                    {/* `key` remet la pagination à zéro quand on change de wallet. */}
+                    <TransactionSection
+                      key={walletaddress}
+                      data={transactions}
+                      walletAddress={walletaddress}
+                    />
               </div>
         </PageContainer>
 }
