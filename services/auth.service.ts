@@ -27,10 +27,6 @@ const get_logged_user = async() => {
   if (!session) {
     throw new Error("not authenticated")
   }
-  if (session) {
-    console.log(session.user.id);
-    console.log(session.user.email);
-  }
 }
 const logOut = async() => {
   const { error } = await authClient.signOut()
