@@ -12,6 +12,7 @@ datasource db {
   provider = "mongodb"
   url      = env("DATABASE_URL")
 }
+
 enum Network {
   ETHEREUM
   BASE
@@ -40,13 +41,31 @@ enum AlertCondition {
   BELOW
 }
 
+// ---------------------------------------------------------------------------
+// better-auth core models (user / session / account / verification).
+//
+// Field names below match `getAuthTables()` in @better-auth/core exactly — the
+// adapter looks them up by name, so renaming one breaks it silently at runtime.
+//
+// Ids stay Mongo ObjectIds, which means better-auth must NOT generate them
+// itself (its generateId() returns a 32-char base62 string, not a 24-char hex
+// ObjectId, and Prisma rejects it). `lib/auth.ts` sets
+// `advanced.database.generateId: false` so the id is left to `@default(auto())`.
+// ---------------------------------------------------------------------------
+
 model User {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  email     String   @unique
-  password  String?
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  name          String
+  email         String  @unique
+  emailVerified Boolean @default(false)
+  image         String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  sessions Session[]
+  accounts Account[]
 
   wallets   Wallet[]
   watchlist Watchlist[]
@@ -54,53 +73,110 @@ model User {
   settings  Settings?
 }
 
-model Wallet {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+model Session {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
 
-  address   String
-  name      String?
-  network   Network
+  token     String   @unique
+  expiresAt DateTime
+  ipAddress String?
+  userAgent String?
+
+  createdAt DateTime @default(now())
+  // better-auth only sets updatedAt on update, never on create, so Prisma has
+  // to fill it in itself — @updatedAt writes it on both.
+  updatedAt DateTime @updatedAt
+
+  userId String @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model Account {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  accountId  String
+  providerId String
+
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  // Hashed credential password. This is where email+password lives now — not
+  // on User.
+  password              String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId String @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model Verification {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  identifier String
+  value      String
+  expiresAt  DateTime
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([identifier])
+}
+
+model Wallet {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  address String
+  name    String?
+  network Network
 
   createdAt DateTime @default(now())
 
-  userId    String   @db.ObjectId
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([address, network])
 }
 
 model Watchlist {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  id String @id @default(auto()) @map("_id") @db.ObjectId
 
   symbol    String
   createdAt DateTime @default(now())
 
-  userId    String   @db.ObjectId
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, symbol])
 }
 
 model Alert {
-  id          String         @id @default(auto()) @map("_id") @db.ObjectId
+  id String @id @default(auto()) @map("_id") @db.ObjectId
 
   symbol      String
   targetPrice Float
   condition   AlertCondition
   enabled     Boolean        @default(true)
 
-  createdAt   DateTime       @default(now())
+  createdAt DateTime @default(now())
 
-  userId       String         @db.ObjectId
-  user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Settings {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  id String @id @default(auto()) @map("_id") @db.ObjectId
 
-  currency  Currency @default(USD)
-  theme     Theme    @default(DARK)
+  currency Currency @default(USD)
+  theme    Theme    @default(DARK)
 
-  userId    String   @unique @db.ObjectId
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @unique @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
