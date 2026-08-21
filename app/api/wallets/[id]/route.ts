@@ -26,7 +26,7 @@ export async function DELETE(request: NextRequest, { params }: PageProps) {
   }
 
 }
-export async function UPDATE(request: NextRequest, { params }: PageProps) {
+export async function PATCH(request: NextRequest, { params }: PageProps) {
   try {
     const { id } = await params;
     const wallet = await prisma.wallet.update({

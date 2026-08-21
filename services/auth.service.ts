@@ -1,6 +1,7 @@
 import { CreateUserDTO } from "@/types/user_type"
 import { authClient } from "@/lib/auth-client"
-
+import { auth } from "@/lib/auth"
+import { headers } from "next/headers"
 const singUp = async ({ name, email, password }: CreateUserDTO) => {
   const { data, error } = await authClient.signUp.email({
     name , email , password
@@ -20,10 +21,10 @@ const login = async ({ email, password }: CreateUserDTO) => {
   return data
 }
 const get_logged_user = async() => {
-  const { data:session , isPending} =  authClient.useSession()
-  if (isPending) {
-    return
-  }
+  const session = await auth.api.getSession({
+    headers: await headers()
+  })
+
   if (!session) {
     throw new Error("not authenticated")
   }
