@@ -6,7 +6,7 @@ import { useState } from "react"
 import { AuthCard, AuthField, AuthLink } from "@/components/auth/auth-card"
 import { Button } from "@/components/ui/button"
 import { signupSchema } from "@/validators/auth.validator"
-import { SignUp } from "@/services/auth.service"
+import { SignUpServices } from "@/services/auth.service"
 type FieldErrors = Partial<Record<"name" | "email" | "password", string>>
 
 const Signup = () => {
@@ -35,7 +35,7 @@ const Signup = () => {
     setErrors({})
 
     setLoading(true)
-    const { data , error } = await SignUp(parsed.data)
+    const { data , error } = await SignUpServices(parsed.data)
     setLoading(false)
     if (error) {
         setError(error.message ?? "Unable to sign in.")

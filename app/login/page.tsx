@@ -5,9 +5,8 @@ import { useState } from "react"
 
 import { AuthCard, AuthField, AuthLink } from "@/components/auth/auth-card"
 import { Button } from "@/components/ui/button"
-import { authClient } from "@/lib/auth-client"
 import { loginSchema } from "@/validators/auth.validator"
-
+import { LoginServices } from "@/services/auth.service"
 type FieldErrors = Partial<Record<"email" | "password", string>>
 
 const Login = () => {
@@ -36,9 +35,8 @@ const Login = () => {
     setErrors({})
 
     setLoading(true)
-    const { error } = await authClient.signIn.email(parsed.data)
+    const { data ,  error } = await LoginServices(parsed.data)
     setLoading(false)
-
     if (error) {
       setError(error.message ?? "Unable to sign in.")
       return
