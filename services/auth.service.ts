@@ -1,17 +1,13 @@
-import { CreateUserDTO } from "@/types/user_type"
 import { authClient } from "@/lib/auth-client"
-import { auth } from "@/lib/auth"
-import { headers } from "next/headers"
-const signUp = async ({ name, email, password }: CreateUserDTO) => {
+import type { LoginInput, SignupInput } from "@/validators/auth.validator"
+
+const SignUp = async ({ name, email, password }: SignupInput) => {
   const { data, error } = await authClient.signUp.email({
     name , email , password
   })
-  if (error) {
-    throw new Error(error.message)
-  }
-  return data
+  return { data, error }
 }
-const login = async ({ email, password }: CreateUserDTO) => {
+const Login = async ({ email, password }: LoginInput) => {
   const { data, error } = await authClient.signIn.email({
     email , password
   })
@@ -20,18 +16,10 @@ const login = async ({ email, password }: CreateUserDTO) => {
   }
   return data
 }
-const get_logged_user = async() => {
-  const session = await auth.api.getSession({
-    headers: await headers()
-  })
-
-  if (!session) {
-    throw new Error("not authenticated")
-  }
-}
-const logOut = async() => {
+const LogOut = async() => {
   const { error } = await authClient.signOut()
   if (error) {
     throw new Error(error.message)
   }
 }
+export { Login , LogOut , SignUp}
