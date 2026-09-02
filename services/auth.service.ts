@@ -2,7 +2,7 @@ import { CreateUserDTO } from "@/types/user_type"
 import { authClient } from "@/lib/auth-client"
 import { auth } from "@/lib/auth"
 import { headers } from "next/headers"
-const singUp = async ({ name, email, password }: CreateUserDTO) => {
+const signUp = async ({ name, email, password }: CreateUserDTO) => {
   const { data, error } = await authClient.signUp.email({
     name , email , password
   })
